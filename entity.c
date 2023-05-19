@@ -249,7 +249,7 @@ void init_moving_trap(const char* spritepath[],int x,int y,int w,int h,int frame
             fprintf(stderr, "Error: Unable to load sprite image. %s\n", SDL_GetError());
             exit(1);
         }
-        t->sprite[i] = SDL_DisplayFormat(temp_surface);
+        t->sprite[i] = SDL_DisplayFormatAlpha(temp_surface);
         SDL_FreeSurface(temp_surface);
         if (t->sprite[i] == NULL)
         {

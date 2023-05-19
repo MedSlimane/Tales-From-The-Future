@@ -1108,7 +1108,7 @@ void updatePlayerPosition(SDL_Rect *playerRect, int *direction, int velocity, in
  * @return Nothing
  */
 void checkIfPlayerIsDead(Player *player, int *gameover, int *level, int *upZero, int *upOne, int *upTwo)
-{
+{ 
     if (player->rect.y > 900)
     {
         player->health = 0;

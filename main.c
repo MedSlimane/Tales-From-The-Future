@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
             init_players(&player, &playerTwo);
             const char* mettaton[] = {"imgs/mettaton.png"};
             trap mttn;
-            init_moving_trap(mettaton, 14500, 500, 107, 106, 1, &mttn);
+            init_moving_trap(mettaton, 14000, 500, 107, 106, 1, &mttn);
 
             init_e(&e, level);
             player.rect.w = 120;
