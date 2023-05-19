@@ -700,9 +700,9 @@ int joystickMovement(int *inputs, Player *player, int *njump)
     printf("player direction: %d\n", player->direction);
     int UP = inputs[0];
     int DOWN = inputs[1];
-    int LEFT = inputs[3];
-    int RIGHT = inputs[2];
-    int X = inputs[4];
+    int LEFT = inputs[4];
+    int RIGHT = inputs[3];
+    int X = inputs[2];
     int Y = inputs[6];
     int A = inputs[5];
     int B = inputs[7];

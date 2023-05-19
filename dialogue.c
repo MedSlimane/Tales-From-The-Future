@@ -1,6 +1,6 @@
 #include "dialogue.h"
 
-void levelDlg(SDL_Surface *screen, Background *dialogue, int *dialogueCheck, int *i, int maxframe)
+void levelDlg(SDL_Surface *screen, Background *dialogue, int *dialogueCheck, int *i, int maxframe, int *inputs, int ctrlChoice)
 {
     printf("Func entry\n");
     int inDialogue = 1;
@@ -37,6 +37,38 @@ void levelDlg(SDL_Surface *screen, Background *dialogue, int *dialogueCheck, int
             }
         }
     }
+
+    /*else if (ctrlChoice == 2)
+    {
+        afficherDialogue(*dialogue, screen, *i);
+        printf("i = %d\n", *i);
+        SDL_Flip(screen);
+        if (*i >= maxframe) // end of dialogue
+        {
+            SDL_Delay(2500);
+            *i = *(i) + 1;
+            *dialogueCheck = 1;
+            inDialogue = 0;
+        }
+        int Up = inputs[0];
+        int Down = inputs[1];
+        int Left = inputs[4];
+        int Right = inputs[3];
+        int X = inputs[2];
+        int Y = inputs[6];
+        int A = inputs[5];
+        int B = inputs[7];
+        if (Down == 1)
+        {
+            *i = *(i) + 1;
+        }
+        if (Y == 1)
+        {
+            *dialogueCheck = 1;
+            inDialogue = 0;
+            *i = maxframe + 1;
+        }
+    }*/
 }
 
 void afficherDialogue(Background b, SDL_Surface *screen, int i)
