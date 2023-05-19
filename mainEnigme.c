@@ -126,10 +126,12 @@ int Enigme(SDL_Surface*  screen)
             if (e.choix == e.reponse)
             {
                 e.SurfaceResultat = TTF_RenderText_Blended(e.font, " VOUS AVEZ GAGNE ", e.color2);
+                return 1;
             }
             else
             {
                 e.SurfaceResultat = TTF_RenderText_Blended(e.font, " VOUS AVEZ PERDU ", e.color2);
+                return 0;
             }
             afficherResultat(e, screen);
             SDL_Flip(screen);

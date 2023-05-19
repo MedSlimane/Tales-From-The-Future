@@ -77,6 +77,7 @@ int pong(SDL_Surface *screen)
 			SDL_Flip(screen);
 			SDL_Delay(5000);
 			SDL_FreeSurface(player1_image);
+			return 1;
 			running = 0;
 		}
 		else if (scoreP2 == 5)
@@ -87,6 +88,7 @@ int pong(SDL_Surface *screen)
 			SDL_Flip(screen);
 			SDL_Delay(5000);
 			SDL_FreeSurface(player2_image);
+			return 0;
 			running = 0;
 		}
 
@@ -113,7 +115,7 @@ int pong(SDL_Surface *screen)
 		}
 
 		int rand_num = rand() % 100;
-		if (rand_num < 40)
+		if (rand_num < 10)
 		{
 
 			while (posBar2.y + BAR_H / 2 < posBall.y)
@@ -194,6 +196,7 @@ int pong(SDL_Surface *screen)
 
 		SDL_Flip(screen);
 		SDL_Delay(10);
+		return 1;
 	}
 
 	SDL_FreeSurface(score1);

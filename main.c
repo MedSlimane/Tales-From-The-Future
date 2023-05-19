@@ -53,7 +53,8 @@ int main(int argc, char *argv[])
         Minimap m;
         int initialy, initialx;
         // Initialize SDL
-        int level = 4;
+        int level = 0;
+        int answer, winner;
         int updatedLevelZero = 0;
         int updatedLevelOne = 0;
         int updatedLevelTwo = 0;
@@ -69,7 +70,7 @@ int main(int argc, char *argv[])
             SDL_Rect level1traps[] = {{1618, 636, 100, 10}, {2060, 636, 100, 10}, {2544, 636, 100, 20}, {7750, 636, 100, 10}, {8140, 636, 100, 10}, {9092, 636, 200, 10}, {11270, 636, 200, 10}};
             pauseBackground pause[6];
             Background b[10], mask[10], gameoverimg;
-            Background dialogue[10];
+            Background dialogue[50];
             int dialogueCheck[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             int dialogueIndex = 0;
             Background choice;
@@ -103,7 +104,8 @@ int main(int argc, char *argv[])
             const char *level4[] = {"imgs/level4_1.png", "imgs/level4_2.png", "imgs/level4_3.png", "imgs/level4_4.png"};
             const char *level4mask[] = {"imgs/level 4Mask.png"};
             const char *level22mask[] = {"imgs/level 22Mask.png"};
-            const char *levelOneDialogue[] = {"dialogue/d1.png", "dialogue/d2.png", "dialogue/d3.png", "dialogue/d4.png", "dialogue/d5.png", "dialogue/d6.png", "dialogue/d7.png"};
+            const char *levelOneDialogue[] = {"dialogue/d1.png", "dialogue/d2.png", "dialogue/d3.png", "dialogue/d4.png", "dialogue/d5.png", "dialogue/d6.png", "dialogue/d7.png", "dialogue/d8.png", "dialogue/d9.png", "dialogue/d10.png", "dialogue/d11.png",
+                                                 "dialogue/d12.png", "dialogue/d13.png", "dialogue/d14.png"};
             initBack(&gameoverimg, screen_surface, gameoverpic, 1);
             initBack(&b[0], screen_surface, level1, 10);
             initBack(&mask[0], screen_surface, level1mask, 1);
@@ -115,9 +117,12 @@ int main(int argc, char *argv[])
             initBack(&mask[1], screen_surface, level2mask, 1);
             initBack(&mask[2], screen_surface, level22mask, 1);
             initBack(&mask[4], screen_surface, level4mask, 1);
-            initBack(&dialogue[0], screen_surface, levelOneDialogue, 6);
+            initBack(&dialogue[0], screen_surface, levelOneDialogue, 13);
             initBack(&choice, screen_surface, choicepic, 1);
             init_players(&player, &playerTwo);
+            const char* mettaton[] = {"imgs/mettaton.png"};
+            trap mttn;
+            init_moving_trap(mettaton, 14500, 500, 107, 106, 1, &mttn);
 
             init_e(&e, level);
             player.rect.w = 120;
@@ -134,6 +139,7 @@ int main(int argc, char *argv[])
             int playermoving;
             int isPaused = 0;
             int gameover = 0;
+                        int predicament;
             int mouseX, mouseY;
             int buttonOneHovered = 0, buttonTwoHovered = 0, buttonThreeHovered = 0, buttonFourHovered = 0;
             // collision test text
@@ -148,6 +154,9 @@ int main(int argc, char *argv[])
             int obstacleCollision = 0;
             // b.images[0]= IMG_Load("imgs/level 1.png");
             Background levelPassed, damage;
+            Background lost;
+            const char *lostPic[] = {"imgs/lost.png"};
+            initBack(&lost, screen_surface, lostPic, 1);
             /*Dialogue will be transferred into a seperate function eventually*/
             // const char *dialogueOne[] = {"dialogue/dialogueOne.png"};
             // initBack(&dialogue[0], screen_surface, dialogueOne, 1);
@@ -198,6 +207,52 @@ int main(int argc, char *argv[])
                 if (actualPlayer.x >= 14700 && level == 0)
                 {
                     afficherBack(levelPassed, screen_surface);
+                    answer = Enigme(screen_surface);
+                    printf("%d answer", answer);
+                    if (answer == 0)
+                    {
+                        // lost
+                        predicament = 1;
+                        while (predicament)
+                        {
+                            SDL_WaitEvent(&event);
+                            afficherBack(lost, screen_surface);
+                            SDL_Flip(screen_surface);
+                            switch (event.type)
+                            {
+                            case SDL_QUIT:
+                                SDL_Quit();
+                                break;
+                            case SDL_KEYUP:
+                                switch (event.key.keysym.sym)
+                                {
+                                case SDLK_y:
+                                    printf("Pong start");
+                                    winner = pong(screen_surface);
+                                    printf("%d winner", winner);
+                                    printf("Pong ends");
+                                    break;
+                                case SDLK_n:
+                                    printf("rib");
+                                    game = 0;
+                                    break;
+                                }
+                            }
+                            if (winner == 1)
+                            {
+                                predicament = 1;
+                            }
+                            else
+                            {
+                                printf("Reb");
+                                player.health = 0;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        predicament = 1;
+                    }
                     SDL_Flip(screen_surface);
                     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
                     mus = Mix_LoadWAV("game_sound/missionPassed.wav");
@@ -236,7 +291,7 @@ int main(int argc, char *argv[])
                     mus = Mix_LoadWAV("game_sound/missionPassed.wav");
                     int ch = Mix_PlayChannel(-1, mus, 0);
                     SDL_Delay(10000);
-                    level = 4;  
+                    level = 4;
                     actualPlayer.x = 0;
                 }
 
@@ -334,6 +389,26 @@ int main(int argc, char *argv[])
                 if ((level == 0) && (dialogueCheck[1] == 0) && (actualPlayer.x >= 860))
                 {
                     levelDlg(screen_surface, dialogue, &dialogueCheck[dialogueIndex], &dialogueframe, 5);
+                }
+                if ((level == 0) && (dialogueCheck[2] == 0) && (actualPlayer.x >= 4090))
+                {
+                    levelDlg(screen_surface, dialogue, &dialogueCheck[dialogueIndex], &dialogueframe, 6);
+                }
+                if ((level == 0) && (dialogueCheck[3] == 0) && (actualPlayer.x >= 6450))
+                {
+                    levelDlg(screen_surface, dialogue, &dialogueCheck[dialogueIndex], &dialogueframe, 8);
+                }
+                if ((level == 0) && (dialogueCheck[4] == 0) && (actualPlayer.x >= 12600))
+                {
+                    levelDlg(screen_surface, dialogue, &dialogueCheck[dialogueIndex], &dialogueframe, 10);
+                }
+                if ((level == 0) && (dialogueCheck[5] == 0) && (actualPlayer.x >= 13500))
+                {
+                    levelDlg(screen_surface, dialogue, &dialogueCheck[dialogueIndex], &dialogueframe, 12);
+                }
+                if ((level == 1) && (dialogueCheck[6]) && (actualPlayer.x >= 50)) {
+                    levelDlg(screen_surface, dialogue, &dialogueCheck[dialogueIndex], &dialogueframe, 13);
+
                 }
                 if (dialogueCheck[dialogueIndex] == 1)
                 {
@@ -483,9 +558,6 @@ int main(int argc, char *argv[])
                             {
                                 c[i].collected = 1;
                                 player.score += 10;
-                                Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-                                mus = Mix_LoadWAV("game_sound/coin.wav");
-                                int ch = Mix_PlayChannel(-1, mus, 0);
                             }
                             if (c[i].collected == 0)
                             {
@@ -526,9 +598,10 @@ int main(int argc, char *argv[])
 
                     animate_trap(&t1, SDL_GetTicks());
                     move_trap(&t1, 1000, 1200);
-                    if (level == 0)
+                    if (level == 0) {
+                        print_trap(mttn,screen_surface,b[level].camera_pos);
                         print_trap(t1, screen_surface, b[level].camera_pos);
-
+                    }
                     draw_hearts(screen_surface, player.health);
                     Uint32 elapsedGameTime = SDL_GetTicks() - start_time;
                     affichertemps(elapsedGameTime / 1000);

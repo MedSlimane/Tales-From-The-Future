@@ -31,7 +31,7 @@ void levelDlg(SDL_Surface *screen, Background *dialogue, int *dialogueCheck, int
                 inDialogue = 0;
                 *i = maxframe + 1;
                 break;
-            case SDLK_RIGHT:
+            case SDLK_DOWN:
                 *i = *(i) + 1;
                 break;
             }
