@@ -12,9 +12,9 @@
 void init_e(Entity *e,int level)
 {
     int levelsx[]={3000,1000,1000};
-    const char *eleft[] = {"entities_sprites/run_1.png", "entities_sprites/run_2.png", "entities_sprites/run_3.png", "entities_sprites/run_4.png", "entities_sprites/run_5.png", "entities_sprites/run_6.png"};
-    const char *eright[] = {"entities_sprites/run_1.png", "entities_sprites/run_2.png", "entities_sprites/run_3.png", "entities_sprites/run_4.png", "entities_sprites/run_5.png", "entities_sprites/run_6.png"};
-    const char *eidle[] = {"entities_sprites/ready_1.png", "entities_sprites/ready_2.png", "entities_sprites/ready_3.png", "entities_sprites/ready_4.png", "entities_sprites/ready_5.png", "entities_sprites/ready_6.png"};
+    const char *eleft[] = {"entities_sprites/left_0.png","entities_sprites/left_1.png", "entities_sprites/left_2.png", "entities_sprites/left_3.png", "entities_sprites/left_4.png", "entities_sprites/left_5.png", "entities_sprites/left_6.png", "entities_sprites/left_7.png"};
+    const char *eright[] = {"entities_sprites/right_0.png", "entities_sprites/right_1.png", "entities_sprites/right_2.png", "entities_sprites/right_3.png", "entities_sprites/right_4.png", "entities_sprites/right_5.png", "entities_sprites/right_6.png", "entities_sprites/right_7.png"};
+    const char *eidle[] = {"entities_sprites/ready_0.png","entities_sprites/ready_1.png", "entities_sprites/ready_2.png", "entities_sprites/ready_3.png"};
     init_entity(e, levelsx[level], 650, 1, 10, 100, 100, eidle);
     init_eleft(e, eleft);
     init_eright(e, eright);
@@ -48,7 +48,7 @@ void init_entity(Entity *e, int x, int y, int v, int maxv, int hp, int maxhp, co
 
     e->direction = 0;
 
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 4; i++)
     {
         SDL_Surface *temp_surface = IMG_Load(sprite_paths[i]);
         if (temp_surface == NULL)
@@ -79,7 +79,7 @@ void init_entity(Entity *e, int x, int y, int v, int maxv, int hp, int maxhp, co
 void init_eright(Entity *e, const char *path[])
 {
     int j = 0;
-    for (int i = 6; i < 12; i++)
+    for (int i = 4; i < 12; i++)
     {
         SDL_Surface *temp_surface = IMG_Load(path[j]);
         j++;
@@ -111,7 +111,7 @@ void init_eleft(Entity *e, const char *path[])
 {
     int j = 0;
     int i;
-    for (i = 12; i < 18; i++)
+    for (i = 10; i < 18; i++)
     {
         SDL_Surface *temp_surface = IMG_Load(path[j]);
         j++;
